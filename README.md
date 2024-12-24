@@ -21,6 +21,7 @@ A simple and elegant web application that allows users to check the status of a 
 1. Clone the repository:
    ```bash
    git clone https://github.com/bnana545/StatusMC-bedrock-Web.git
-   cd StatusMC-bedrock-Web
-   open index.html
    
+   cd StatusMC-bedrock-Web
+   
+   open index.html
