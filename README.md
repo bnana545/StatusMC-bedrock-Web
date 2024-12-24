@@ -2,7 +2,6 @@
 
 A simple and elegant web application that allows users to check the status of a Minecraft Bedrock server, including the server's MOTD (Message of the Day), the number of players online, and the maximum capacity.
 
-![Screenshot of the website](https://via.placeholder.com/800x400?text=Screenshot+Coming+Soon)
 
 ## Features
 
@@ -22,8 +21,6 @@ A simple and elegant web application that allows users to check the status of a 
 1. Clone the repository:
    ```bash
    git clone https://github.com/bnana545/StatusMC-bedrock-Web.git
-   
-3. cd StatusMC-bedrock-Web
-   
-4. open index.html
+   cd StatusMC-bedrock-Web
+   open index.html
    
