@@ -1,178 +1,446 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Minecraft Server Status</title>
-  <style>
-    @font-face {
-      font-family: 'Minecraft';
-      src: url(data:font/ttf;base64,AAEAAAAKAIAAAwAwT1MvMg8S...) format('truetype');
-    }
-    body {
-      font-family: 'Minecraft', sans-serif;
-      background: #2d2d2d;
-      color: #fff;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-    }
-    .container {
-      background: rgba(45, 45, 45, 0.95);
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
-      border-radius: 16px;
-      padding: 30px;
-      width: 90%;
-      max-width: 800px;
-      text-align: center;
-    }
-    .title {
-      font-size: 3rem;
-      margin: 0 0 10px;
-      animation: color-and-glow 10s infinite alternate;
-    }
-    @keyframes color-and-glow {
-      0% { color: #ffa500; text-shadow: 0 0 15px #ffa500, 0 0 30px #ffa500; }
-      25% { color: #ff6347; text-shadow: 0 0 15px #ff6347, 0 0 30px #ff6347; }
-      50% { color: #32cd32; text-shadow: 0 0 15px #32cd32, 0 0 30px #32cd32; }
-      75% { color: #1e90ff; text-shadow: 0 0 15px #1e90ff, 0 0 30px #1e90ff; }
-      100% { color: #ffa500; text-shadow: 0 0 15px #ffa500, 0 0 30px #ffa500; }
-    }
-    .subtitle {
-      font-size: 1.5rem;
-      color: #bbb;
-      margin-bottom: 20px;
-    }
-    .motd-title {
-      font-size: 1.5rem;
-      color: #ffffff;
-      margin-bottom: 10px;
-      text-shadow: 0 0 10px #ffffff, 0 0 20px #ffffff;
-    }
-    .motd-box {
-      margin: 20px 0;
-      padding: 20px;
-      background: #000;
-      border-radius: 12px;
-      color: #fff;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-      white-space: pre-wrap;
-      text-align: left;
-      font-family: 'Minecraft', sans-serif;
-      font-size: 1.6rem;
-    }
-    .players-box {
-      margin: 20px 0;
-      padding: 20px;
-      background: rgba(51, 51, 51, 0.9);
-      border-radius: 12px;
-      color: #fff;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    }
-    .progress-bar {
-      width: 100%;
-      background: #444;
-      border-radius: 12px;
-      overflow: hidden;
-      margin: 15px 0;
-      box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.5);
-    }
-    .progress-bar-inner {
-      height: 20px;
-      background: linear-gradient(90deg, #32CD32, #228B22);
-      width: 0;
-      transition: width 0.5s ease-in-out;
-      box-shadow: 0 0 15px rgba(50, 205, 50, 0.8), 0 0 30px rgba(50, 205, 50, 0.5);
-    }
-    .server-input input {
-      padding: 12px;
-      margin: 10px 5px;
-      border: 1px solid #555;
-      border-radius: 8px;
-      background: #2b2f36;
-      color: #fff;
-      width: calc(50% - 20px);
-      font-size: 1rem;
-    }
-    footer {
-      margin-top: 20px;
-      font-size: 0.9rem;
-      color: #777;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minecraft Server Status</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Orbitron:wght@500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #1a252f;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--primary);
+            color: var(--light);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background-color: rgba(26, 37, 47, 0.8);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: var(--light);
+            font-size: 2.5rem;
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(52, 152, 219, 0.5);
+        }
+
+        .version-selector {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            gap: 1rem;
+        }
+
+        .version-btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+
+        .version-btn.java {
+            background-color: #f39c12;
+            color: var(--dark);
+        }
+
+        .version-btn.bedrock {
+            background-color: #27ae60;
+            color: var(--dark);
+        }
+
+        .version-btn.active {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--light);
+        }
+
+        input {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--secondary);
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        button.check-btn {
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1.5rem;
+        }
+
+        button.check-btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .status-container {
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 1.5rem;
+            border-left: 5px solid var(--secondary);
+        }
+
+        .status-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .status-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .status-icon.online {
+            background-color: #2ecc71;
+            box-shadow: 0 0 10px #2ecc71;
+        }
+
+        .status-icon.offline {
+            background-color: var(--accent);
+            box-shadow: 0 0 10px var(--accent);
+        }
+
+        .status-title {
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        .status-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .status-item {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 0.8rem;
+            border-radius: 8px;
+        }
+
+        .status-item-title {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 0.3rem;
+        }
+
+        .status-item-value {
+            font-weight: 600;
+            word-break: break-all;
+        }
+
+        .player-list {
+            margin-top: 1rem;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .player-item {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .player-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            margin-right: 10px;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .status-details {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1 class="title">Minecraft Server Status</h1>
-      <p class="subtitle">Server Information at a Glance!</p>
-    </header>
-    <main>
-      <p class="motd-title">MOTD:</p>
-      <div class="motd-box" id="motd">N/A</div>
-      <div class="players-box">
-        <h2>Players</h2>
-        <p id="player-count">Online: 0 / 0</p>
-        <div class="progress-bar">
-          <div id="progress-bar-inner" class="progress-bar-inner"></div>
+    <div class="container">
+        <h1>Minecraft Server Status</h1>
+        
+        <div class="version-selector">
+            <button class="version-btn java active" data-version="java">Java Edition</button>
+            <button class="version-btn bedrock" data-version="bedrock">Bedrock Edition</button>
         </div>
-      </div>
-      <div class="server-input">
-        <input type="text" id="server-ip" placeholder="Enter Server IP">
-        <input type="text" id="server-port" placeholder="Enter Port">
-      </div>
-    </main>
-    <footer>
-      <p>Website by Cat</p>
-    </footer>
-  </div>
-  <script>
-    const serverIpInput = document.getElementById('server-ip');
-    const serverPortInput = document.getElementById('server-port');
-    const motdBox = document.getElementById('motd');
-    const playerCount = document.getElementById('player-count');
-    const progressBarInner = document.getElementById('progress-bar-inner');
-    let trackingInterval;
+        
+        <div class="input-group">
+            <label for="server-address">Server Address</label>
+            <input type="text" id="server-address" placeholder="example.com or 123.123.123.123" autocomplete="off">
+        </div>
+        
+        <div class="input-group">
+            <label for="server-port">Server Port (optional)</label>
+            <input type="number" id="server-port" placeholder="25565 for Java, 19132 for Bedrock" autocomplete="off">
+        </div>
+        
+        <button class="check-btn" id="check-status">Check Server Status</button>
+        
+        <div id="status-result" class="hidden">
+            <div class="status-container">
+                <div class="status-header">
+                    <div class="status-icon" id="status-indicator"></div>
+                    <div class="status-title" id="status-message">Checking server status...</div>
+                </div>
+                <div class="status-details" id="status-details">
+                    <!-- Status details will be inserted here -->
+                </div>
+                <div class="player-list hidden" id="player-list">
+                    <!-- Player list will be inserted here -->
+                </div>
+            </div>
+        </div>
+    </div>
 
-    async function fetchServerStatus(ip, port) {
-      try {
-        const response = await fetch(`https://api.mcsrvstat.us/bedrock/2/${ip}:${port}`);
-        const data = await response.json();
-        if (!data.online) {
-          motdBox.innerHTML = `Offline`;
-          playerCount.innerHTML = "Online: 0 / 0";
-          progressBarInner.style.width = "0%";
-          progressBarInner.style.boxShadow = "none";
-          return;
-        }
-        const coloredMotd = data.motd.html.join('<br>');
-        motdBox.innerHTML = `${coloredMotd}`;
-        const onlinePlayers = data.players.online;
-        const maxPlayers = data.players.max;
-        playerCount.innerHTML = `Online: ${onlinePlayers} / ${maxPlayers}`;
-        const percentage = (onlinePlayers / maxPlayers) * 100;
-        progressBarInner.style.width = `${percentage}%`;
-        progressBarInner.style.boxShadow = `0 0 15px rgba(50, 205, 50, 0.8)`; 
-      } catch (error) {
-        motdBox.innerHTML = `Error`;
-      }
-    }
-
-    function startTracking() {
-      const ip = serverIpInput.value.trim();
-      const port = serverPortInput.value.trim();
-      if (ip && port) {
-        if (trackingInterval) clearInterval(trackingInterval);
-        fetchServerStatus(ip, port);
-        trackingInterval = setInterval(() => fetchServerStatus(ip, port), 1000);
-      }
-    }
-
-    serverIpInput.addEventListener('input', startTracking);
-    serverPortInput.addEventListener('input', startTracking);
-  </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const versionButtons = document.querySelectorAll('.version-btn');
+            const javaBtn = document.querySelector('.version-btn.java');
+            const bedrockBtn = document.querySelector('.version-btn.bedrock');
+            const serverAddressInput = document.getElementById('server-address');
+            const serverPortInput = document.getElementById('server-port');
+            const checkStatusBtn = document.getElementById('check-status');
+            const statusResult = document.getElementById('status-result');
+            const statusIndicator = document.getElementById('status-indicator');
+            const statusMessage = document.getElementById('status-message');
+            const statusDetails = document.getElementById('status-details');
+            const playerList = document.getElementById('player-list');
+            
+            let currentVersion = 'java';
+            
+            // Set default port based on version
+            function setDefaultPort() {
+                serverPortInput.placeholder = currentVersion === 'java' ? '25565 for Java' : '19132 for Bedrock';
+            }
+            
+            // Version selection
+            versionButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    versionButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    currentVersion = this.dataset.version;
+                    setDefaultPort();
+                });
+            });
+            
+            // Check server status
+            checkStatusBtn.addEventListener('click', async function() {
+                const address = serverAddressInput.value.trim();
+                const port = serverPortInput.value.trim() || (currentVersion === 'java' ? '25565' : '19132');
+                
+                if (!address) {
+                    alert('Please enter a server address');
+                    return;
+                }
+                
+                // Show loading state
+                checkStatusBtn.disabled = true;
+                checkStatusBtn.textContent = 'Checking...';
+                statusResult.classList.remove('hidden');
+                statusIndicator.className = 'status-icon';
+                statusIndicator.innerHTML = '<div class="loading"></div>';
+                statusMessage.textContent = 'Checking server status...';
+                statusDetails.innerHTML = '';
+                playerList.classList.add('hidden');
+                playerList.innerHTML = '';
+                
+                try {
+                    const response = await fetch(`https://api.mcsrvstat.us/2/${address}:${port}`);
+                    const data = await response.json();
+                    
+                    displayServerStatus(data);
+                } catch (error) {
+                    console.error('Error fetching server status:', error);
+                    statusIndicator.className = 'status-icon offline';
+                    statusMessage.textContent = 'Error checking server status';
+                    statusDetails.innerHTML = `
+                        <div class="status-item">
+                            <div class="status-item-title">Error</div>
+                            <div class="status-item-value">Could not connect to the server or API</div>
+                        </div>
+                    `;
+                } finally {
+                    checkStatusBtn.disabled = false;
+                    checkStatusBtn.textContent = 'Check Server Status';
+                }
+            });
+            
+            // Display server status
+            function displayServerStatus(data) {
+                if (data.online) {
+                    statusIndicator.className = 'status-icon online';
+                    statusMessage.textContent = 'Server is online';
+                    
+                    let detailsHTML = `
+                        <div class="status-item">
+                            <div class="status-item-title">Hostname</div>
+                            <div class="status-item-value">${data.hostname || data.ip}</div>
+                        </div>
+                        <div class="status-item">
+                            <div class="status-item-title">Port</div>
+                            <div class="status-item-value">${data.port}</div>
+                        </div>
+                        <div class="status-item">
+                            <div class="status-item-title">Version</div>
+                            <div class="status-item-value">${data.version || 'Unknown'}</div>
+                        </div>
+                        <div class="status-item">
+                            <div class="status-item-title">Players</div>
+                            <div class="status-item-value">${data.players.online || 0}/${data.players.max || 0}</div>
+                        </div>
+                        <div class="status-item">
+                            <div class="status-item-title">MOTD</div>
+                            <div class="status-item-value">${data.motd?.clean?.join(' ') || 'No MOTD'}</div>
+                        </div>
+                    `;
+                    
+                    if (data.software) {
+                        detailsHTML += `
+                            <div class="status-item">
+                                <div class="status-item-title">Software</div>
+                                <div class="status-item-value">${data.software}</div>
+                            </div>
+                        `;
+                    }
+                    
+                    statusDetails.innerHTML = detailsHTML;
+                    
+                    // Show players if available
+                    if (data.players.list && data.players.list.length > 0) {
+                        playerList.classList.remove('hidden');
+                        let playersHTML = '';
+                        
+                        data.players.list.forEach(player => {
+                            playersHTML += `
+                                <div class="player-item">
+                                    <div class="player-avatar" style="background-image: url('https://mc-heads.net/avatar/${player}/32');"></div>
+                                    <div>${player}</div>
+                                </div>
+                            `;
+                        });
+                        
+                        playerList.innerHTML = playersHTML;
+                    }
+                } else {
+                    statusIndicator.className = 'status-icon offline';
+                    statusMessage.textContent = 'Server is offline';
+                    statusDetails.innerHTML = `
+                        <div class="status-item">
+                            <div class="status-item-title">Hostname</div>
+                            <div class="status-item-value">${data.hostname || data.ip || 'Unknown'}</div>
+                        </div>
+                        <div class="status-item">
+                            <div class="status-item-title">Port</div>
+                            <div class="status-item-value">${data.port || 'Unknown'}</div>
+                        </div>
+                        <div class="status-item">
+                            <div class="status-item-title">Status</div>
+                            <div class="status-item-value">Server is offline or unreachable</div>
+                        </div>
+                    `;
+                }
+            }
+            
+            // Initialize
+            setDefaultPort();
+        });
+    </script>
 </body>
 </html>
