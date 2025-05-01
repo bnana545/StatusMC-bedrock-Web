@@ -1,27 +1,24 @@
-# Minecraft Server Status Website
+# 🎮 Minecraft Server Status Checker
 
-A simple and elegant web application that allows users to check the status of a Minecraft Bedrock server, including the server's MOTD (Message of the Day), the number of players online, and the maximum capacity.
+A lightweight web tool to check Minecraft Java/Bedrock server status with IP resolution.
 
+## ✨ Features
 
-## Features
+- 🟢 Live server status checking  
+- 🔄 Auto IP resolution from hostnames  
+- 📋 One-click IP copying  
+- 📱 Mobile-friendly interface  
+- 🎨 Modern UI with animations  
 
-- **Real-time Server Status:** Fetches live server status updates every second.
-- **Dynamic MOTD Display:** Displays the server's MOTD with color codes and formatting.
-- **Player Count Progress Bar:** Visual representation of the server's player capacity.
-- **Responsive Design:** Works seamlessly on desktop and mobile devices.
+## 🚀 Quick Start
 
-## Technologies Used
+### Basic Usage
+1. Save the HTML code as `index.html`
+2. Open the file in any modern browser
 
-- **HTML5** and **CSS3**: For structuring and styling the website.
-- **JavaScript (ES6)**: For real-time status updates using the [MCSrvStat API](https://api.mcsrvstat.us/).
-- **Font Integration:** Custom Minecraft font for an authentic feel.
+### Local Development Server
 
-## Installation
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/bnana545/StatusMC-bedrock-Web.git
-   
-   cd StatusMC-bedrock-Web
-   
-   open index.html
+#### Using Python
+```bash
+python3 -m http.server 8000
+xdg-open http://localhost:8000
