@@ -5,8 +5,6 @@ A lightweight web tool to check Minecraft Java/Bedrock server status with IP res
 ## ✨ Features
 
 - 🟢 Live server status checking  
-- 🔄 Auto IP resolution from hostnames  
-- 📋 One-click IP copying  
 - 📱 Mobile-friendly interface  
 - 🎨 Modern UI with animations  
 
